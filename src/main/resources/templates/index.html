@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="appPessoa">
+<head>
+<meta charset="UTF-8" />
+<title>Tela de cadastro de pessoas</title>
+<style>
+h2{
+ text-align:center;
+ width:80%;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;    
+}
+fieldset{
+width:20%;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
+<script src="./js/app.js"></script>
+</head>
+<body ng-controller="indexController">
+
+<fieldset >
+<legend>Pessoa</legend>
+	<label for="nome">Nome: </label>
+	<input type="text" ng-model="pessoa.nome" id="nome"/></br>
+	<label for="rua">Rua: </label>
+	<input type="text" ng-model="pessoa.rua" id="rua"/></br>
+	<label for="numero">Número: </label>
+	<input type="text" ng-model="pessoa.numero" id="numero"/></br>
+	<label for="bairro">Bairro: </label>
+	<input type="text" ng-model="pessoa.bairro" id="bairro"/></br>
+	<label for="cidade">Cidade: </label>
+	<input type="text" ng-model="pessoa.cidade" id="cidade"/></br>
+	<label for="estado">Estado: </label>
+	<input type="text" ng-model="pessoa.estado" id="estado"/></br>
+	<label for="telefone">Celular: </label>
+	<input type="text" ng-model="pessoa.celular" id="celular"/></br>
+	<label for="telefone">Telefone: </label>
+	<input type="text" ng-model="pessoa.telefone" id="telefone"/></br>
+</fieldset>
+
+<input type="button" value="salvar" ng-click="salvarPessoa()"/>
+<input type="button" value="atualizar tabela" ng-click="listarPessoas()"/>
+
+<h2>Tabela de pessoas cadastradas</h2>
+
+<table id="tabelaDePessoas" style="width:80%">
+  <tr>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Rua</th>
+    <th>Número</th>
+    <th>Bairro</th>
+    <th>Cidade</th>
+    <th>Estado</th>
+    <th>Celular</th>
+    <th>Telefone</th>
+  </tr>
+	  <tr ng-repeat="cli in pessoas">
+	    <td>{{cli.id}}</td>
+	    <td>{{cli.nome}}</td>
+	    <td>{{cli.rua}}</td>
+	    <td>{{cli.numero}}</td>
+	    <td>{{cli.bairro}}</td>
+	    <td>{{cli.cidade}}</td>
+	    <td>{{cli.estado}}</td>
+	    <td>{{cli.celular}}</td>
+	    <td>{{cli.telefone}}</td>
+	   <td><input type="button" value="remover" ng-click="removerPessoa(cli.id)"/></td>		    
+	  </tr>
+</table>
+</body>
+</html>
