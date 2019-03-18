@@ -1,7 +1,6 @@
 package br.com.castgroup.desafio;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,7 +22,7 @@ public class DesafioApplication implements CommandLineRunner  {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Pessoa p1 = new Pessoa("Teste A","R. da Aurora",1259,"Santo Amaro","Recife","Pernambuco",8121254100l,81999999999l);
+		Pessoa p1 = new Pessoa("Teste B","R. da Aurora",1259,"Santo Amaro","Recife","Pernambuco",8121254100l,81999999999l);
 		Pessoa p2 = new Pessoa("Teste B","R. da Aurora",1259,"Santo Amaro","Recife","Pernambuco",8121254100l,81999999999l);
 		Pessoa p3 = new Pessoa("Teste C","R. da Aurora",1259,"Santo Amaro","Recife","Pernambuco",8121254100l,81999999999l);
 		

@@ -20,7 +20,7 @@ public class Pessoa implements Serializable {
 		this.nome = nome;
 	}
 
-	public Pessoa(String nome, String rua, int numero, String bairro, String cidade, String estado,long celular, long telefone) {
+	public Pessoa(String nome, String rua, Integer numero, String bairro, String cidade, String estado,Long celular, Long telefone) {
 		this.nome = nome;
 		this.rua = rua;
 		this.numero = numero;
@@ -35,14 +35,14 @@ public class Pessoa implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Integer id;
 
 	@NotEmpty(message="Este campo é obrigatório")
 	private String nome;
 
 	private String rua;
 
-	private int numero;
+	private Integer numero;
 
 	private String bairro;
 
@@ -50,23 +50,23 @@ public class Pessoa implements Serializable {
 
 	private String estado;
 	
-	private long celular;
-
-	public long getCelular() {
+	private Long celular;
+	
+	private Long telefone;
+	
+	public Long getCelular() {
 		return celular;
 	}
 
-	public void setCelular(long celular) {
+	public void setCelular(Long celular) {
 		this.celular = celular;
 	}
 
-	private long telefone;
-
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -86,11 +86,11 @@ public class Pessoa implements Serializable {
 		this.rua = rua;
 	}
 
-	public int getNumero() {
+	public Integer getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
 
@@ -118,11 +118,11 @@ public class Pessoa implements Serializable {
 		this.estado = estado;
 	}
 
-	public long getTelefone() {
+	public Long getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(long telefone) {
+	public void setTelefone(Long telefone) {
 		this.telefone = telefone;
 	}
 

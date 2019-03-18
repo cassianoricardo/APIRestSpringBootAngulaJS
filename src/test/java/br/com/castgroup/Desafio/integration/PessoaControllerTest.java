@@ -31,7 +31,9 @@ public class PessoaControllerTest {
 
 	private RestTemplate restTemplate = new RestTemplate();
 
-	public static long sequence = 0;
+	public static int sequence = 0;
+	
+	public static long idPessoaTest;
 	
 	@Before
 	public void limpaBase() {
@@ -52,11 +54,11 @@ public class PessoaControllerTest {
 	public void testConsultarPessoaPorID() {
 		geraMassaDeTest();
 		try {
-		ResponseEntity<Pessoa> responseEntity = restTemplate.getForEntity(BASE_URI + "/pessoa/" + sequence,
+		ResponseEntity<Pessoa> responseEntity = restTemplate.getForEntity(BASE_URI + "/pessoa/" + idPessoaTest,
 				Pessoa.class);
-			Assert.assertEquals("teste", responseEntity.getBody().getNome());
+			Assert.assertEquals("teste"+sequence, responseEntity.getBody().getNome());
 		}catch(HttpClientErrorException ex) {
-			Assert.assertFalse(ex.getStatusText().equals(HttpStatus.NOT_FOUND.toString()));
+			Assert.assertFalse("A Pessoa consultada não foi encontrada",ex.getRawStatusCode() == HttpStatus.NOT_FOUND.value());
 		}
 		
 	}
@@ -72,18 +74,19 @@ public class PessoaControllerTest {
 	@Test
 	public void testRemoverPessoa() {
 		geraMassaDeTest();
-		restTemplate.delete(BASE_URI + "/pessoa/remover/"+ sequence, Pessoa.class );
+		restTemplate.delete(BASE_URI + "/pessoa/remover/"+ idPessoaTest, Pessoa.class );
 		try {
 			pessoaController.consultarPessoaPorID(sequence);
 			Assert.assertFalse("Deveria lançar uma excecao pois o id não deveria constar na base",true);
 		} catch (PessoaNotFoundException e) {
-			Assert.assertTrue(e.getMessage().equals("Não consta nenhuma pessoa com esse id"));
+			Assert.assertEquals("Não consta nenhuma pessoa com esse id",e.getMessage());
 		}
 	}
 	
 	public void geraMassaDeTest() {
-		pessoaRepository.save(new Pessoa("teste"+sequence+1));
-		sequence +=1; 
+		sequence+=sequence+1;
+		Pessoa pessoaTest = pessoaRepository.save(new Pessoa("teste"+sequence ));
+		idPessoaTest = pessoaTest.getId(); 
 	}
 
 }

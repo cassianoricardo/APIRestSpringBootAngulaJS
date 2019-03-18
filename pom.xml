@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.castgroup</groupId>
-	<artifactId>Desafio</artifactId>
+	<artifactId>desafio</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Desafio</name>
 	<description>Desafio para selação da cast group</description>
@@ -68,45 +68,6 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 
-		<!-- Jersey dependency -->
-		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-			<version>2.28</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-inmemory</artifactId>
-			<version>2.28</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-jdk-http</artifactId>
-			<version>2.28</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-simple</artifactId>
-			<version>2.28</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-jetty</artifactId>
-			<version>2.28</version>
-		</dependency>
-	
-		<dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
-            <version>2.26-b07</version>
-        </dependency>
-
-
-		<!-- -->
 	</dependencies>
 
 

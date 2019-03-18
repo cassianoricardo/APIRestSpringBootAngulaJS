@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 import br.com.castgroup.desafio.model.Pessoa;
 
 @Repository
-public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
+public interface PessoaRepository extends JpaRepository<Pessoa, Integer>{
 
-	Pessoa findById(long id);
+	Pessoa findById(int id);
 	
-	void deleteById(long id);
+	void deleteById(int id);
 }

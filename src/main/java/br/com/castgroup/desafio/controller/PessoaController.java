@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.castgroup.desafio.exception.PessoaNotFoundException;
@@ -43,7 +41,7 @@ public class PessoaController {
 	@GetMapping("/pessoa/{id}")
 	@ApiOperation(value = "Retorna uma unica pessoa")
 	@ExceptionHandler(PessoaNotFoundException.class)
-	public ResponseEntity<Pessoa> consultarPessoaPorID(@PathVariable(value = "id") long id) throws PessoaNotFoundException {
+	public ResponseEntity<Pessoa> consultarPessoaPorID(@PathVariable(value = "id") int id) throws PessoaNotFoundException {
 		Pessoa pessoa  = pessoaRepository.findById(id);
 		
 		ResponseEntity<Pessoa> response = new ResponseEntity<Pessoa>(pessoa,HttpStatus.OK);
@@ -64,7 +62,7 @@ public class PessoaController {
 
 	@DeleteMapping("/pessoa/remover/{id}")
 	@ApiOperation(value = "deleta uma Pessoa")
-	public void removerPessoa(@PathVariable(value = "id") long id) throws PessoaNotFoundException {
+	public void removerPessoa(@PathVariable(value = "id") int id) throws PessoaNotFoundException {
 			ResponseEntity<Pessoa> pessoaEncontrada = consultarPessoaPorID(id);
 			pessoaRepository.deleteById(pessoaEncontrada.getBody().getId());
 		
