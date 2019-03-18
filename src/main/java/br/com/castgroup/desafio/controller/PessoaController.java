@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.castgroup.desafio.exception.PessoaNotFoundException;
@@ -40,20 +43,19 @@ public class PessoaController {
 	@GetMapping("/pessoa/{id}")
 	@ApiOperation(value = "Retorna uma unica pessoa")
 	@ExceptionHandler(PessoaNotFoundException.class)
-	public Pessoa consultarPessoaPorID(@PathVariable(value = "id") long id) {
-		Pessoa pessoa = null;
-
-		pessoa = pessoaRepository.findById(id);
+	public ResponseEntity<Pessoa> consultarPessoaPorID(@PathVariable(value = "id") long id) throws PessoaNotFoundException {
+		Pessoa pessoa  = pessoaRepository.findById(id);
+		
+		ResponseEntity<Pessoa> response = new ResponseEntity<Pessoa>(pessoa,HttpStatus.OK);
 		if (pessoa == null) {
 			throw new PessoaNotFoundException("Não consta nenhuma pessoa com esse id");
 		}
-		return pessoa;
+		return response;
 	}
 
 	@PostMapping("/pessoa/salvar")
 	@ApiOperation(value = "salva uma Pessoa")
 	public Pessoa salvarPessoa(@Valid @RequestBody Pessoa pessoa) {
-
 		if (null == pessoa.getNome()) {
 			throw new RuntimeException("O campo nome é obrigatório");
 		}
@@ -62,12 +64,9 @@ public class PessoaController {
 
 	@DeleteMapping("/pessoa/remover/{id}")
 	@ApiOperation(value = "deleta uma Pessoa")
-	public void removerPessoa(@PathVariable(value = "id") long id) {
-		try {
-			pessoaRepository.deleteById(id);
-		}catch(EmptyResultDataAccessException ex) {
-			throw new RuntimeException("Não consta nenhuma pessoa com esse id");
-		}
+	public void removerPessoa(@PathVariable(value = "id") long id) throws PessoaNotFoundException {
+			ResponseEntity<Pessoa> pessoaEncontrada = consultarPessoaPorID(id);
+			pessoaRepository.deleteById(pessoaEncontrada.getBody().getId());
 		
 	}
 }

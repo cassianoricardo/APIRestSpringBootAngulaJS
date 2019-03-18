@@ -3,78 +3,115 @@
 <head>
 <meta charset="UTF-8" />
 <title>Tela de cadastro de pessoas</title>
-<style>
-h2{
- text-align:center;
- width:80%;
-}
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 5px;
-  text-align: left;    
-}
-fieldset{
-width:20%;
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 <script src="./js/app.js"></script>
 </head>
 <body ng-controller="indexController">
+	<fieldset class="border p-2">
+		<legend>Cadatrado de pessoas</legend>
+		<form class="col-md-4">
+			<div class="form-group row">
+				<label for="nome" class="col-sm-2 col-form-label">Nome: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="pessoa.nome" id="nome"
+						class="form-control" required />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="rua" class="col-sm-2 col-form-label"> Rua: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="pessoa.rua" id="rua"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="numero" class="col-sm-2 col-form-label">Número:
+				</label>
+				<div class="col-sm-10">
+					<input type="number" ng-model="pessoa.numero" id="numero" 
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="bairro" class="col-sm-2 col-form-label">Bairro:
+				</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="pessoa.bairro" id="bairro"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="cidade" class="col-sm-2 col-form-label">Cidade:
+				</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="pessoa.cidade" id="cidade"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="estado" class="col-sm-2 col-form-label">Estado:
+				</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="pessoa.estado" id="estado"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="telefone" class="col-sm-2 col-form-label">Celular:
+				</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="pessoa.celular" id="celular"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="telefone" class="col-sm-2 col-form-label">Telefone:
+				</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="pessoa.telefone" id="telefone"
+						class="form-control" />
+				</div>
+			</div>
+		</form>
+	</fieldset>
 
-<fieldset >
-<legend>Pessoa</legend>
-	<label for="nome">Nome: </label>
-	<input type="text" ng-model="pessoa.nome" id="nome"/></br>
-	<label for="rua">Rua: </label>
-	<input type="text" ng-model="pessoa.rua" id="rua"/></br>
-	<label for="numero">Número: </label>
-	<input type="text" ng-model="pessoa.numero" id="numero"/></br>
-	<label for="bairro">Bairro: </label>
-	<input type="text" ng-model="pessoa.bairro" id="bairro"/></br>
-	<label for="cidade">Cidade: </label>
-	<input type="text" ng-model="pessoa.cidade" id="cidade"/></br>
-	<label for="estado">Estado: </label>
-	<input type="text" ng-model="pessoa.estado" id="estado"/></br>
-	<label for="telefone">Celular: </label>
-	<input type="text" ng-model="pessoa.celular" id="celular"/></br>
-	<label for="telefone">Telefone: </label>
-	<input type="text" ng-model="pessoa.telefone" id="telefone"/></br>
-</fieldset>
+	<input type="button" class="btn btn-outline-primary" value="salvar" ng-click="salvarPessoa() " />
+	</br>
+	<h3 class="border p-2">Pessoas cadastradas</h3>
 
-<input type="button" value="salvar" ng-click="salvarPessoa()"/>
-<input type="button" value="atualizar tabela" ng-click="listarPessoas()"/>
+	<table class="table" id="tabelaDePessoas" style="">
+		<tr>
+		<tr>
+			<th scope="col">ID</th>
+			<th scope="col">Name</th>
+			<th scope="col">Rua</th>
+			<th scope="col">Número</th>
+			<th scope="col">Bairro</th>
+			<th scope="col">Cidade</th>
+			<th scope="col">Estado</th>
+			<th scope="col">Celular</th>
+			<th scope="col">Telefone</th>
+			<th scope="col"></th>
+		</tr>
+		<tr ng-repeat="cli in pessoas">
 
-<h2>Tabela de pessoas cadastradas</h2>
-
-<table id="tabelaDePessoas" style="width:80%">
-  <tr>
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Rua</th>
-    <th>Número</th>
-    <th>Bairro</th>
-    <th>Cidade</th>
-    <th>Estado</th>
-    <th>Celular</th>
-    <th>Telefone</th>
-  </tr>
-	  <tr ng-repeat="cli in pessoas">
-	    <td>{{cli.id}}</td>
-	    <td>{{cli.nome}}</td>
-	    <td>{{cli.rua}}</td>
-	    <td>{{cli.numero}}</td>
-	    <td>{{cli.bairro}}</td>
-	    <td>{{cli.cidade}}</td>
-	    <td>{{cli.estado}}</td>
-	    <td>{{cli.celular}}</td>
-	    <td>{{cli.telefone}}</td>
-	   <td><input type="button" value="remover" ng-click="removerPessoa(cli.id)"/></td>		    
-	  </tr>
-</table>
+			<td>{{cli.id}}</td>
+			<td>{{cli.nome}}</td>
+			<td>{{cli.rua}}</td>
+			<td>{{cli.numero}}</td>
+			<td>{{cli.bairro}}</td>
+			<td>{{cli.cidade}}</td>
+			<td>{{cli.estado}}</td>
+			<td>{{cli.celular}}</td>
+			<td>{{cli.telefone}}</td>
+			<td><input type="button" class="btn btn-outline-primary" value="remover" ng-click="removerPessoa(cli)" /></td>
+		</tr>
+	</table>
 </body>
 </html>

@@ -1,7 +1,6 @@
 package br.com.castgroup.Desafio.unit;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+
 import static org.mockito.Mockito.when;
 
 import org.junit.Assert;
@@ -13,15 +12,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.castgroup.desafio.controller.PessoaController;
+import br.com.castgroup.desafio.exception.PessoaNotFoundException;
 import br.com.castgroup.desafio.model.Pessoa;
 import br.com.castgroup.desafio.repository.PessoaRepository;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class PessoaRepositoryTest {
 
 	@InjectMocks
@@ -40,10 +40,10 @@ public class PessoaRepositoryTest {
 
 		when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(null);
 		try {
-			Pessoa pessoa = pessoaController.consultarPessoaPorID(Mockito.anyLong());
+			ResponseEntity<Pessoa> response = pessoaController.consultarPessoaPorID(Mockito.anyLong());
 			Assert.assertFalse("Ao tentar consulta alguma pessoa que não existe deveria lançar uma excesao",
-					pessoa != null);
-		} catch (RuntimeException e) {
+					null != response.getBody() );
+		} catch (PessoaNotFoundException e) {
 			Assert.assertTrue(e.getMessage().equals("Não consta nenhuma pessoa com esse id"));
 		}
 	}
@@ -53,9 +53,9 @@ public class PessoaRepositoryTest {
 		Pessoa mock = Mockito.mock(Pessoa.class);
 		when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(mock);
 		try {
-			Pessoa pessoa = pessoaController.consultarPessoaPorID(Mockito.anyLong());
-			Assert.assertTrue("Pessoa consultada com sucesso", pessoa != null);
-		} catch (RuntimeException e) {
+			ResponseEntity<Pessoa> response = pessoaController.consultarPessoaPorID(Mockito.anyLong());
+			Assert.assertTrue( null != response.getBody());
+		} catch (PessoaNotFoundException e) {
 			Assert.assertFalse("A consulta deveria retornar uma pessoa",
 					e.getMessage().equals("Não consta nenhuma pessoa com esse id"));
 		}
@@ -64,14 +64,13 @@ public class PessoaRepositoryTest {
 	@Test
 	public void quandoInserirUmaPessoaSemNome() {
 		Pessoa mock = Mockito.mock(Pessoa.class);
-		mock.setNome(null);
+		when(mock.getNome()).thenReturn(null);
 		when(pessoaRepository.save(mock)).thenReturn(mock);
 		try {
 			Pessoa pessoa = pessoaController.salvarPessoa(mock);
-			Assert.assertFalse("Ao tentar cadastra uma pessoa sem nome deveria lançar uma excesão", pessoa != null);
+			Assert.assertFalse("Ao tentar cadastra uma pessoa sem nome deveria lançar uma excesão", null  != pessoa );
 		} catch (RuntimeException e) {
-			Assert.assertTrue("Validação de nome realizada com sucesso",
-					e.getMessage().equals("O campo Nome é obrigatório"));
+			Assert.assertTrue(e.getMessage().equals("O campo nome é obrigatório"));
 		}
 
 	}
@@ -84,7 +83,7 @@ public class PessoaRepositoryTest {
 
 		try {
 			Pessoa pessoa = pessoaController.salvarPessoa(mock);
-			Assert.assertTrue("Pessoa cadastrada com sucesso", pessoa != null);
+			Assert.assertTrue( pessoa != null);
 		} catch (RuntimeException e) {
 			Assert.assertFalse("Não deveria lançar excesão, pois o nome está preenchido",
 					e.getMessage().equals("O campo Nome é obrigatório"));
@@ -94,11 +93,12 @@ public class PessoaRepositoryTest {
 
 	@Test
 	public void quandoDeletarUmaPessoaComIdExistente() {
-
+		Pessoa mock = Mockito.mock(Pessoa.class);
+		when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(mock);
 		try {
 			pessoaController.removerPessoa(Mockito.anyLong());
-			Assert.assertTrue("Pessoa removida com sucesso", true);
-		} catch (RuntimeException e) {
+			Assert.assertTrue(true);
+		} catch (PessoaNotFoundException e) {
 			Assert.assertFalse("Não deveria lançar excesão, pois o id é de uma pessoa existente",
 					e.getMessage().equals("Não consta nenhuma pessoa com esse id"));
 		}
@@ -107,16 +107,15 @@ public class PessoaRepositoryTest {
 
 	@Test
 	public void quandoDeletarUmaPessoaSemIdExistente() {
-		
-		doThrow(new EmptyResultDataAccessException(1)).when(pessoaRepository).deleteById(Mockito.anyLong());
-		
+		when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(null);
 		try {
 			pessoaController.removerPessoa(Mockito.anyLong());
 			Assert.assertFalse("deveria lançar uma excesão, pois o id da pessoa a remover não existe", true);
-		} catch (RuntimeException e) {
-			Assert.assertTrue("Validação de pessoa com id Inexistente realizada com sucesso",
-					e.getMessage().equals("Não consta nenhuma pessoa com esse id"));
+		} catch (PessoaNotFoundException e) {
+			Assert.assertTrue(e.getMessage().equals("Não consta nenhuma pessoa com esse id"));
 		}
 	}
+	
+	
 
 }
