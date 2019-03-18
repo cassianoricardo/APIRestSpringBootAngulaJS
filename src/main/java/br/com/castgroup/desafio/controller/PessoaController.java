@@ -32,12 +32,20 @@ public class PessoaController {
 	@Autowired
 	PessoaRepository pessoaRepository;
 
+	/** Metodo responsavel por retornar lista as pessoas cadastradas
+	 * @return List<Pessoa>
+	 */	
 	@GetMapping("/pessoas")
 	@ApiOperation(value = "Retorna uma lista de Pessoas")
 	public List<Pessoa> listarPessoas() {
 		return pessoaRepository.findAll();
 	}
-
+	
+	
+	/** Metodo responsavel por consultar uma pessoa atraves do id
+	 * @param id
+	 * @return Pessoa
+	 */	
 	@GetMapping("/pessoa/{id}")
 	@ApiOperation(value = "Retorna uma unica pessoa")
 	@ExceptionHandler(PessoaNotFoundException.class)
@@ -50,7 +58,12 @@ public class PessoaController {
 		}
 		return response;
 	}
-
+	
+	/** Metodo responsavel por cadastrar uma pessoa, 
+	 *  e retorna a pessoa cadastrada com o id gerado pela base de dados
+	 * @param Pessoa
+	 * @return Pessoa
+	 */	
 	@PostMapping("/pessoa/salvar")
 	@ApiOperation(value = "salva uma Pessoa")
 	public Pessoa salvarPessoa(@Valid @RequestBody Pessoa pessoa) {
@@ -59,7 +72,10 @@ public class PessoaController {
 		}
 		return pessoaRepository.save(pessoa);
 	}
-
+	
+	/** Metodo responsavel por remover uma pessoa, usando o id da pessoa
+	 * @param id
+	 */	
 	@DeleteMapping("/pessoa/remover/{id}")
 	@ApiOperation(value = "deleta uma Pessoa")
 	public void removerPessoa(@PathVariable(value = "id") int id) throws PessoaNotFoundException {

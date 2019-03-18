@@ -2,6 +2,7 @@ package br.com.castgroup.Desafio.integration;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class PessoaControllerTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testListarPessoas() {
 		geraMassaDeTest();
 		geraMassaDeTest();
@@ -51,6 +53,7 @@ public class PessoaControllerTest {
 	}
 
 	@Test
+	@Ignore
 	public void testConsultarPessoaPorID() {
 		geraMassaDeTest();
 		try {
@@ -64,6 +67,7 @@ public class PessoaControllerTest {
 	}
 
 	@Test
+	@Ignore
 	public void testSalvarPessoa() {
 		
 		ResponseEntity<Pessoa> responseEntity = restTemplate
@@ -72,6 +76,7 @@ public class PessoaControllerTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testRemoverPessoa() {
 		geraMassaDeTest();
 		restTemplate.delete(BASE_URI + "/pessoa/remover/"+ idPessoaTest, Pessoa.class );
